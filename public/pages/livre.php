@@ -16,7 +16,7 @@
                 </div>
                 <div class="card-body">
 
-                    <form method="POST" action="traitement_livre.php" id="formLivre">
+                    <form method="POST" action="traitement/traitement_livre.php" id="formLivre">
 
                         <div class="mb-3">
                             <label for="titre" class="form-label">Titre <span class="text-danger">*</span></label>
