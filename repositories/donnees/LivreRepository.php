@@ -27,7 +27,9 @@ class LivreRepository
             );
             
     return (int) $this->pdo->lastInsertId();
-    
+
         }
+        
+    
 
 }

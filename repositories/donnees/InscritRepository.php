@@ -23,5 +23,18 @@ class InscritRepository {
         ]);
 
     }
+
+    public function VerificationEmail(Inscrit $verification)
+      {
+        $stmt =$this->pdo->prepare("SELECT COUNT(*) FROM inscrit WHERE email = :email");
+        $stmt->execute(['email' => $verification->getEmail()]);
+        $exists = $stmt->fetchColumn();
+
+        if ($exists > 0) {
+          return true;
+        } else {
+           return false;
+        }
+    }
     
 }

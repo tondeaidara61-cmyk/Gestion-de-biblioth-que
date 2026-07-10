@@ -10,12 +10,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $telephone = trim($_POST['telephone']);
 
     $user = new Inscrit(null,$nom,$prenom,$email,$telephone);
+  $userRepo = new InscritRepository();
+    $emailExist = $userRepo->VerificationEmail($user);
 
-    $userRepo = new InscritRepository();
+    if ($emailExist == true) {
+      $_SESSION['erreurEmail']= true;
 
-    $userRepo -> CreationInscrit($user);
-
-    var_dump($user);
-    die();
-
+      header('location:  ../inscrit.php');
+      die();
+    } else {
+       $userRepo -> CreationInscrit($user);
+    }
+    
 }

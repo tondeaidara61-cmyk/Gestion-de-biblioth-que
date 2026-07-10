@@ -1,3 +1,26 @@
+<?php 
+// traitement/check_email.php
+session_start();
+require '../config/connexion.php'; // adapte le chemin vers ta connexion PDO
+
+header('Content-Type: application/json');
+
+$email = $_GET['email'] ?? '';
+
+if (empty($email)) {
+    echo json_encode(['error' => 'Email manquant']);
+    exit;
+}
+
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM inscrit WHERE email = :email");
+$stmt->execute(['email' => $email]);
+$exists = $stmt->fetchColumn();
+
+echo json_encode(['exists' => $exists > 0]);
+
+
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
