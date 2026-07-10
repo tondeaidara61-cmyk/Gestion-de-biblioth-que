@@ -12,7 +12,7 @@ class LivreRepository
           $this -> pdo = Database::getInstance()->getConnexion();
         }
 
-        public function CreateLivre(Livre $livre)
+        public function CreateLivre(Livre $livre):int
         {
             $sql="INSERT INTO Livre (titre,genre,annee_publication,id_auteur) VALUES (:tle,:genre,:a_p,:id)";
 
@@ -25,6 +25,8 @@ class LivreRepository
                     ':id'=> $livre->getIdAuteur()
                 ]
             );
+            
+    return (int) $this->pdo->lastInsertId();
         }
 
 }

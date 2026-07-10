@@ -1,3 +1,26 @@
+<?php
+require_once __DIR__ . '/../../repositories/donnees/AuteurRepository.php';
+require_once __DIR__ . '/../../repositories/donnees/LivreRepository.php';
+
+// ---------- Traitement AJAX (avant tout affichage HTML) ----------
+if (isset($_GET['fonct']) && $_GET['fonct'] === 'checkAuteur') {
+    header('Content-Type: application/json');
+
+    $nom = $_GET['nom'] ?? '';
+    $prenom = $_GET['prenom'] ?? '';
+
+    $repo = new AuteurRepository();
+    $auteur = $repo->trouverParNomPrenom($nom, $prenom);
+
+    echo json_encode([
+        'exists' => $auteur !== null,
+        'id_auteur' => $auteur?->getIdAuteur(),
+    ]);
+    exit; // important : on arrête tout ici, pas de HTML après
+}
+
+// ---------- Sinon, affichage normal de la page ----------
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -88,6 +111,6 @@
         </div>
     </div>
 </div>
-
+<script src="../assets/js/fonction-verificationAuteur.js"></script>
 </body>
 </html>

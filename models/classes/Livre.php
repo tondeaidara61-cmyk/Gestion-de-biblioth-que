@@ -33,7 +33,7 @@ class Livre
     }
 
     
-    public function getAnnee_de_publication():string
+    public function getAnnee_de_publication(): ?string
     {
         return $this->annee_de_publication;
     }
