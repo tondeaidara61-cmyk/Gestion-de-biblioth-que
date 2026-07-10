@@ -24,7 +24,7 @@ class Livre
 
     public function getIdLivre():string
     {
-        return $this->idLivre;
+        return $this->idLivre;  
     }
     
     public function getGenre():string
@@ -32,7 +32,7 @@ class Livre
         return $this->genre;
     }
 
-    
+     
     public function getAnnee_de_publication(): ?string
     {
         return $this->annee_de_publication;
