@@ -1,23 +1,40 @@
 <?php 
-// traitement/check_email.php
 session_start();
-require '../config/connexion.php'; // adapte le chemin vers ta connexion PDO
+require_once __DIR__. '/../../models/classes/Inscrit.php';
+require_once __DIR__ . '/../../repositories/donnees/InscritRepository.php';
 
-header('Content-Type: application/json');
 
-$email = $_GET['email'] ?? '';
+$message = $_SESSION['message'] ?? null;
+$messageType = $_SESSION['message_type'] ?? null;
 
-if (empty($email)) {
-    echo json_encode(['error' => 'Email manquant']);
-    exit;
+// On efface immédiatement pour que le message ne réapparaisse pas au rafraîchissement
+unset($_SESSION['message'], $_SESSION['message_type']);
+
+$input = json_decode(file_get_contents("php://input"),true);
+
+if (!empty($input)) {
+    if ($input['action'] === 'EnvoyerEmail') {
+        $email = $input['InputEmail'];
+       
+        $user = new Inscrit(null,'','',$email,'');
+        $userRepo = new InscritRepository();
+        $EmailExist = $userRepo ->VerificationEmail($user);
+
+        if (!filter_var($email,FILTER_VALIDATE_EMAIL)) {
+             echo json_encode(["status" => 'email invalide']);
+             die();
+        }else{
+            if ($EmailExist == true) {
+                echo json_encode(["status" => true]);
+                die();
+            } else {
+            echo json_encode(["status"=> false]);
+                die();
+            }
+        }
+       
+    }
 }
-
-$stmt = $pdo->prepare("SELECT COUNT(*) FROM inscrit WHERE email = :email");
-$stmt->execute(['email' => $email]);
-$exists = $stmt->fetchColumn();
-
-echo json_encode(['exists' => $exists > 0]);
-
 
 
 ?>
@@ -55,8 +72,8 @@ echo json_encode(['exists' => $exists > 0]);
 
                         <div class="mb-3">
                             <label for="email" class="form-label">E-mail <span class="text-danger">*</span></label>
-                            <input type="email" class="form-control" id="email" name="email" required>
-                            <div class="form-text">Doit être unique et valide.</div>
+                            <input type="email" class="form-control" id="email" name="email" required onchange="verification_email()">
+                            <div class="form-text" id="reponse"></div>
                         </div>
 
                         <div class="mb-4">
@@ -67,7 +84,7 @@ echo json_encode(['exists' => $exists > 0]);
 
                         <div class="d-flex justify-content-between">
                             <a href="inscrit.php" class="btn btn-outline-secondary">Annuler</a>
-                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            <button type="submit" class="btn btn-primary" id="enregistrer">Enregistrer</button>
                         </div>
 
                     </form>
@@ -76,6 +93,22 @@ echo json_encode(['exists' => $exists > 0]);
         </div>
     </div>
 </div>
+<script>
+    const message = <?= json_encode($message) ?>;
+    const messageType = <?= json_encode($messageType) ?>;
+
+    if (message) {
+        const alerte = document.createElement('div');
+        alerte.className = `alert alert-${messageType}`;
+        alerte.textContent = message;
+
+        const form = document.querySelector('form');
+        form.parentNode.insertBefore(alerte, form);
+    }
+</script>
 
 </body>
+</body>
+</body>
+<script src="../assets/js/fonction-verificationEmail.js"> </script>
 </html>

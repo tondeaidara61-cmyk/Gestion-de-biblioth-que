@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../repositories/donnees/AuteurRepository.php';
 require_once __DIR__ . '/../../repositories/donnees/LivreRepository.php';
 
+$titrePreRempli = $_GET['titre'] ?? '';
 // ---------- Traitement AJAX (avant tout affichage HTML) ----------
 if (isset($_GET['fonct']) && $_GET['fonct'] === 'checkAuteur') {
     header('Content-Type: application/json');
@@ -44,7 +45,7 @@ if (isset($_GET['fonct']) && $_GET['fonct'] === 'checkAuteur') {
 
                         <div class="mb-3">
                             <label for="titre" class="form-label">Titre <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="titre" name="titre" required>
+                            <input type="text" class="form-control" id="titre" name="titre" required  value="<?= htmlspecialchars($titrePreRempli) ?>">
                         </div>
 
                         <div class="mb-3">
