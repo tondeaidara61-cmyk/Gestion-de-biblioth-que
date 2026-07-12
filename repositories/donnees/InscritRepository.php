@@ -1,8 +1,9 @@
 <?php
 require_once __DIR__ .'/../../config/database.php';
 require_once __DIR__ . '/../../models/classes/Inscrit.php';
+require_once __DIR__ . '/../donnees/ExemplaireRepository.php';
 
-class InscritRepository {
+class InscritRepository extends ExemplaireRepository {
     private $pdo; 
 
     public function __construct()

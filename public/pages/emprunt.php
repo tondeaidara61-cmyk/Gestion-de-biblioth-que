@@ -1,3 +1,62 @@
+<?php
+session_start();
+require_once __DIR__ . '/../../models/classes/Emprunt.php';
+require_once __DIR__ . '/../../repositories/donnees/EmpruntRepository.php';
+require_once __DIR__ . '/../../models/classes/Exemplaire.php';
+
+
+$message = $_SESSION['message'] ?? null;
+$messageType = $_SESSION['message_type'] ?? null;
+// On efface immédiatement pour que le message ne réapparaisse pas au rafraîchissement
+unset($_SESSION['message'], $_SESSION['message_type']);
+
+$input = json_decode(file_get_contents("php://input"),true);
+if (!empty($input)) {
+      if ($input['action'] === "EnvoyerTitreDuLibre") {
+          $titre = $input['input'];
+
+          $exemplaire = new Exemplaire(null,'','','',$titre);
+          $RepoExemplaire = new ExemplaireRepository();
+
+          $SiLivreExiste = $RepoExemplaire ->VerifieSiLIvreExiste($exemplaire);
+
+         
+          if ($SiLivreExiste == null) {
+               echo json_encode(["status"=>false]);
+              
+          } else {
+               $_SESSION['idLivre']=$SiLivreExiste;
+                echo json_encode(["status"=>true]);
+             
+          }
+            die();
+      }
+
+       if ($input['action'] === 'EnvoyerEmail') {
+        $email = $input['InputEmail'];
+       
+        $user = new Inscrit(null,'','',$email,'');
+        $userRepo = new InscritRepository();
+        $EmailExist = $userRepo ->VerificationEmail($user);
+
+        if (!filter_var($email,FILTER_VALIDATE_EMAIL)) {
+             echo json_encode(["status" => 'email invalide']);
+             die();
+        }else{
+            if ($EmailExist == true) {
+                echo json_encode(["status" => true]);
+                die();
+            } else {
+            echo json_encode(["status"=> false]);
+                die();
+            }
+        }
+       
+    }
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -19,7 +78,7 @@
                     <form method="POST" action="">
 
                         <div class="mb-3">
-                            <label for="id_exemplaire" class="form-label">Exemplaire <span class="text-danger">*</span></label>
+                           <label for="titre_livre" class="form-label">Livre <span class="text-danger">*</span></label>
                              <input type="text" class="form-control" id="titre_livre" name="titre_livre" required
                                    placeholder="Ex: Le Petit Prince" onchange="verification_livre()">
                                    <div class="form-text" id="reponse1"></div>  
@@ -45,7 +104,7 @@
 
                         <div class="d-flex justify-content-between">
                             <a href="emprunts.php" class="btn btn-outline-secondary">Annuler</a>
-                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                            <button type="submit" class="btn btn-primary" id="enregistrer">Enregistrer</button>
                         </div>
 
                     </form>
@@ -56,4 +115,6 @@
 </div>
 
 </body>
+<script src="../assets/js/fonction_verificationEmailPourEmprunt.js"> </script>
+<script src="../assets/js/fonction_verificationLivrePourEmprunt.js"> </script>
 </html>
