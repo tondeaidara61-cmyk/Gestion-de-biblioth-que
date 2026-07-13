@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <a href="auteur.php" class="btn btn-outline-secondary">Annuler</a>
+                            <a href="../accueil.php" class="btn btn-outline-secondary">Annuler</a>
                             <button type="submit"  class="btn btn-sauge">Enregistrer</button>
                         </div>
 

@@ -103,7 +103,7 @@ if (isset($_GET['fonct']) && $_GET['fonct'] === 'checkAuteur') {
                         </div>
 
                         <div class="d-flex justify-content-between mt-4">
-                            <a href="livres.php" class="btn btn-outline-secondary">Annuler</a>
+                            <a href="../accueil.php" class="btn btn-outline-secondary">Annuler</a>
                             <button type="submit" class="btn btn-sauge">Enregistrer</button>
                         </div>
 

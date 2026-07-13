@@ -83,7 +83,7 @@ if (!empty($input)) {
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <a href="inscrit.php" class="btn btn-outline-secondary">Annuler</a>
+                            <a href="../accueil.php" class="btn btn-outline-secondary">Annuler</a>
                             <button type="submit" class="btn btn-sauge" id="enregistrer">Enregistrer</button>
                         </div>
 
