@@ -1,6 +1,30 @@
 <?php
 require_once __DIR__ . '/../../repositories/donnees/AuteurRepository.php';
 require_once __DIR__ . '/../../repositories/donnees/LivreRepository.php';
+require_once __DIR__ . '/../../models/classes/Exemplaire.php';
+require_once __DIR__ . '/../../repositories/donnees/ExemplaireRepository.php';
+
+
+
+$input = json_decode(file_get_contents("php://input"),true);
+if(!empty($input))
+    {
+        if ($input['action'] === 'EnvoyerTitreDuLivre') {
+            $titre = $input['input'];
+
+            $livre = new Exemplaire(null,'','','',$titre);
+            $repo = new ExemplaireRepository();
+
+            $resultat = $repo->VerifieSiLIvreExiste($livre);
+
+            if ($resultat === null) {
+                echo json_encode(['status' => true]);
+            } else {
+                  echo json_encode(['status' => 'OuiExiste']);
+            }
+            die();
+        }
+    }
 
 $titrePreRempli = $_GET['titre'] ?? '';
 // ---------- Traitement AJAX (avant tout affichage HTML) ----------
@@ -45,7 +69,9 @@ if (isset($_GET['fonct']) && $_GET['fonct'] === 'checkAuteur') {
 
                         <div class="mb-3">
                             <label for="titre" class="form-label">Titre <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="titre" name="titre" required  value="<?= htmlspecialchars($titrePreRempli) ?>">
+                            <input type="text" class="form-control"
+                             id="titre_livre" name="titre" required onchange="verification_livrePourLivre('livre')" value="<?= htmlspecialchars($titrePreRempli) ?>">
+                                <div class="form-text" id="reponse"></div>  
                         </div>
 
                         <div class="mb-3">
@@ -104,7 +130,7 @@ if (isset($_GET['fonct']) && $_GET['fonct'] === 'checkAuteur') {
 
                         <div class="d-flex justify-content-between mt-4">
                             <a href="../accueil.php" class="btn btn-outline-secondary">Annuler</a>
-                            <button type="submit" class="btn btn-sauge">Enregistrer</button>
+                            <button type="submit" class="btn btn-sauge" id="enregistrer">Enregistrer</button>
                         </div>
 
                     </form>
@@ -114,5 +140,6 @@ if (isset($_GET['fonct']) && $_GET['fonct'] === 'checkAuteur') {
     </div>
 </div>
 <script src="../assets/js/fonction-verificationAuteur.js"></script>
+<script src="../assets/js/fonction_verificationLivre.js"> </script>
 </body>
 </html>

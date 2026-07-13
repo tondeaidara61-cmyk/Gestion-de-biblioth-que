@@ -11,7 +11,7 @@ unset($_SESSION['message'], $_SESSION['message_type']);
 
 $input = json_decode(file_get_contents("php://input"),true);
 if (!empty($input)) {
-      if ($input['action'] === "EnvoyerTitreDuLibre") {
+      if ($input['action'] === "EnvoyerTitreDuLivre") {
           $titre = $input['input'];
 
           $exemplaire = new Exemplaire(null,'','','',$titre);

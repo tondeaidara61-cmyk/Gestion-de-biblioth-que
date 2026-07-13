@@ -27,7 +27,6 @@ class LivreRepository
             );
             
     return (int) $this->pdo->lastInsertId();
-
         }
         
     public function afficherLivres(): array
