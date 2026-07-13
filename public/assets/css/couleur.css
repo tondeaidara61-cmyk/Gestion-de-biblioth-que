@@ -1,0 +1,41 @@
+/* ============================================================
+   Classes couleur "sauge" — à utiliser à la place de
+   bg-primary / btn-primary / text-primary de Bootstrap
+   ============================================================ */
+
+.bg-sauge {
+  background-color: #325a29 !important;
+}
+
+.text-sauge {
+  color: #46613f !important;
+}
+
+.btn-sauge {
+  background-color: #22331e;
+  border-color: #46613f;
+  color: #fff;
+}
+
+.btn-sauge:hover {
+  background-color: #3b5235;
+  border-color: #3b5235;
+  color: #fff;
+}
+
+.btn-outline-sauge {
+  background-color: transparent;
+  border-color: #46613f;
+  color: #46613f;
+}
+
+.btn-outline-sauge:hover {
+  background-color: #46613f;
+  border-color: #46613f;
+  color: #fff;
+}
+
+.badge-sauge {
+  background-color: #46613f !important;
+  color: #fff;
+}

@@ -32,4 +32,17 @@ class ExemplaireRepository
   return $idLivre !== false ? (int) $idLivre : null;
 }
 
+public function afficherExemplaires(): array
+{
+    $sql = "SELECT ex.id_exemplaire, ex.etat, ex.disponible, l.titre
+            FROM exemplaire ex
+            JOIN livre l ON ex.id_livre = l.id_livre
+            ORDER BY l.titre";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }

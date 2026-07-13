@@ -28,4 +28,35 @@ class EmpruntRepository extends  InscritRepository
 }
 
 
+public function afficherEmpruntsEnCours(): array
+    {
+        $sql = "SELECT 
+                    e.id_emprunt,
+                    e.date_emprunt,
+                    e.date_echeance,
+                    l.titre,
+                    i.nom AS nom_inscrit,
+                    i.prenom AS prenom_inscrit
+                FROM emprunt e
+                JOIN exemplaire ex ON e.id_exemplaire = ex.id_exemplaire
+                JOIN livre l ON ex.id_livre = l.id_livre
+                JOIN inscrit i ON e.id_inscrit = i.id_inscrit
+                WHERE e.date_retour_effective IS NULL
+                ORDER BY e.date_echeance ASC";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // ---------- Retour ----------
+
+    public function marquerRendu(int $idEmprunt): void
+    {
+        $sql = "UPDATE emprunt SET date_retour_effective = CURDATE() WHERE id_emprunt = :id";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $idEmprunt]);
+    }
+
 }

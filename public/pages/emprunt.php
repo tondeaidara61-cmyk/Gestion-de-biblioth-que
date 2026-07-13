@@ -63,6 +63,7 @@ if (!empty($input)) {
     <meta charset="UTF-8">
     <title>Formulaire Emprunt</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/css/couleur.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
@@ -70,7 +71,7 @@ if (!empty($input)) {
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card shadow-sm border-0">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header bg-sauge text-white">
                     <h4 class="mb-0">Nouvel emprunt</h4>
                 </div>
                 <div class="card-body">
@@ -104,7 +105,7 @@ if (!empty($input)) {
 
                         <div class="d-flex justify-content-between">
                             <a href="emprunts.php" class="btn btn-outline-secondary">Annuler</a>
-                            <button type="submit" class="btn btn-primary" id="enregistrer">Enregistrer</button>
+                            <button type="submit" class="btn btn-sauge" id="enregistrer">Enregistrer</button>
                         </div>
 
                     </form>

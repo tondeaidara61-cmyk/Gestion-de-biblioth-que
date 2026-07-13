@@ -30,6 +30,24 @@ class LivreRepository
 
         }
         
-    
+    public function afficherLivres(): array
+{
+    $sql = "SELECT 
+                l.id_livre, 
+                l.titre, 
+                l.genre, 
+                l.annee_publication,
+                a.id_auteur,
+                a.nom AS nom_auteur,
+                a.prenom AS prenom_auteur
+            FROM livre l
+            JOIN auteur a ON l.id_auteur = a.id_auteur
+            ORDER BY l.titre";
+
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 }

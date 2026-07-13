@@ -37,5 +37,24 @@ class InscritRepository extends ExemplaireRepository {
            return false;
         }
     }
+
+    public function afficherInscrits(): array
+{
+    $sql = "SELECT * FROM inscrit";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute();
+
+    $inscrits = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $inscrits[] = new Inscrit(
+            $row['id_inscrit'],
+            $row['nom'],
+            $row['prenom'],
+            $row['email'],
+            $row['telephone']
+        );
+    }
+    return $inscrits;
+}
     
 }
